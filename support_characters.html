@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Characters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .derived-section {
+            margin-top: 20px;
+            border-top: 2px solid #ccc;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Support Characters</h1>
+        <form id="support-form">
+            <!-- Sparkle Buff -->
+            <h2>Sparkle</h2>
+            <label for="sparkle-active">Is Sparkle Active?</label>
+            <select id="sparkle-active">
+                <option value="true">True</option>
+                <option value="false" selected>False</option>
+            </select>
+
+            <label for="sparkle-crit-dmg">Sparkle's Crit Damage (%):</label>
+            <input type="number" id="sparkle-crit-dmg" value="0">
+
+            <button type="button" class="btn" onclick="calculateSupportBuffs()">Calculate Support Buffs</button>
+        </form>
+
+        <div class="derived-section">
+            <h2>Derived Buffs</h2>
+            <p><strong>Derived Total Crit Damage Buff:</strong> <span id="derived-total-crit-dmg">0</span></p>
+            <p><strong>Derived Total Atk Buff (%):</strong> <span id="derived-total-atk">0</span></p>
+            <p><strong>Derived Buff Total ATK:</strong> <span id="DerivedBuffTotalAtk">0</span></p>
+            <p><strong>Derived Buff Total Damage Bonus:</strong> <span id="DerivedBuffTotalDmgBonus">0%</span></p>
+            <p><strong>Derived Buff Total Crit Rate:</strong> <span id="DerivedBuffTotalCritRate">0%</span></p>
+            <p><strong>Derived Buff Defence Down:</strong> <span id="DerivedBuffDefenceDown">0%</span></p>
+            <p><strong>Derived Buff Resistance Penetration:</strong> <span id="DerivedBuffResPen">0%</span></p>
+            <p><strong>Derived Buff Vulnerability:</strong> <span id="DerivedBuffVulnerability">0%</span></p>
+            <p><strong>Derived Buff True Damage:</strong> <span id="DerivedBuffTrueDamage">0%</span></p>
+        </div>
+
+        <a href="index.html" class="btn">Return to Main Calculator</a>
+      <button id="AbsorbBuffsButton" onclick="transferBuffs()">Absorb Buffs</button>
+
+    </div>
+
+    <script>
+      
+
+        function calculateSupportBuffs() {
+            // Get Sparkle inputs
+            const sparkleActive = document.getElementById('sparkle-active').value === 'true';
+            const sparkleCritDmg = parseFloat(document.getElementById('sparkle-crit-dmg').value) || 0;
+
+            // Initialize derived buffs
+            let totalCritDmgBuff = 0;
+            let totalAtkBuff = 0;
+            let totalDmgBonusBuff = 0;
+            let totalCritRateBuff = 0;
+            let defenceDownBuff = 0;
+            let resPenBuff = 0;
+            let vulnerabilityBuff = 0;
+            let trueDmgBuff = 0;
+
+
+            if (sparkleActive) {
+                // Sparkle's Crit Damage Buff: 24% of Sparkle's Crit Damage + 45%
+                totalCritDmgBuff += (0.24 * sparkleCritDmg) + 45;
+
+                // Sparkle's Atk Buff: +15% Atk
+                totalAtkBuff += 15;
+                totalDmgBonusBuff += 48;
+            }
+
+            // Update Derived Buffs section
+            document.getElementById('derived-total-crit-dmg').textContent = totalCritDmgBuff.toFixed(2);
+            document.getElementById('derived-total-atk').textContent = totalAtkBuff.toFixed(2);
+            document.getElementById('DerivedBuffTotalAtk').textContent = totalAtkBuff.toFixed(2);
+            document.getElementById('DerivedBuffTotalDmgBonus').textContent = `${totalDmgBonusBuff.toFixed(2)}%`;
+            document.getElementById('DerivedBuffTotalCritRate').textContent = `${totalCritRateBuff.toFixed(2)}%`;
+            document.getElementById('DerivedBuffDefenceDown').textContent = `${defenceDownBuff.toFixed(2)}%`;
+            document.getElementById('DerivedBuffResPen').textContent = `${resPenBuff.toFixed(2)}%`;
+            document.getElementById('DerivedBuffVulnerability').textContent = `${vulnerabilityBuff.toFixed(2)}%`;
+            document.getElementById('DerivedBuffTrueDamage').textContent = `${trueDmgBuff.toFixed(2)}%`;
+  
+            console.log("Support Buffs Calculated: ", {
+        totalAtkBuff,
+        totalDmgBonusBuff,
+        totalCritDmgBuff,
+        totalCritRateBuff,
+        defenceDownBuff,
+        resPenBuff,
+        vulnerabilityBuff,
+        trueDmgBuff,
+    });
+
+            // Store Derived Buffs for Index Page
+            localStorage.setItem('derivedTotalCritDmg', totalCritDmgBuff);
+            localStorage.setItem('DerivedBuffTotalAtk', totalAtkBuff);
+            localStorage.setItem('DerivedBuffTotalDmgBonus', totalDmgBonusBuff);
+            localStorage.setItem('DerivedBuffTotalCritRate', totalCritRateBuff); 
+            localStorage.setItem('DerivedBuffDefenceDown', defenceDownBuff);
+            localStorage.setItem('DerivedBuffResPen', resPenBuff);
+            localStorage.setItem('DerivedBuffVulnerability', vulnerabilityBuff);
+            localStorage.setItem('DerivedBuffTrueDamage', trueDmgBuff);
+}
+      
+
+    </script>
+  <script>
+function transferBuffs() {
+    const derivedBuffs = {
+        atkPercent: parseFloat(document.getElementById("DerivedBuffTotalAtk").innerText) || 0,
+        dmgBonus: parseFloat(document.getElementById("DerivedBuffTotalDmgBonus").innerText) || 0,
+        critRate: parseFloat(document.getElementById("DerivedBuffTotalCritRate").innerText) || 0,
+        critDmg: parseFloat(document.getElementById("derived-total-crit-dmg").innerText) || 0,
+        resPen: parseFloat(document.getElementById("DerivedBuffResPen").innerText) || 0,
+        vulnerability: parseFloat(document.getElementById("DerivedBuffVulnerability").innerText) || 0,
+        trueDmg: parseFloat(document.getElementById("DerivedBuffTrueDamage").innerText) || 0,
+    };
+
+    // Save buffs to localStorage
+    localStorage.setItem("supportBuffs", JSON.stringify(derivedBuffs));
+
+    // Notify the user
+    alert("Buffs successfully transferred to main page!");
+}
+</script>
+
+</body>
+</html>
